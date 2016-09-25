@@ -1,51 +1,64 @@
-<input id="t1" type="text" value="HELLO"><button id='b1'>OK</button>
+<div id="s1_c" class="source">
+    <span>source 1</span>
+    <input id="s1_i" type="text" value="HELLO">
+    <button id='s1_b'>OK</button>
+</div>
 
+<div id="s2_c" class="source">
+    <span>source 2</span>
+    <input id="s2_i" type="text" value="WORD">
+    <button id='s2_b'>OK</button>
+</div>
 
-<input id="t2" type="text" value="WORLD"><button id='b2'>OK</button>
+<div id="s3_c" class="source">
+    <span>source 3</span>
+    <input id="s3_i" type="text" value="FOO">
+    <button id='s3_b'>OK</button>
+</div>
+
+<div id="s4_c" class="source">
+    <span>source 4</span>
+    <input id="s4_i" type="text" value="BAR">
+    <button id='s4_b'>OK</button>
+</div>
+
 
 <hr>
 
-<div id="comp1">
-  <input>
-  <button>OK</button>
-</div>
-
-<div id="comp2">
-  <input>
-  <button>OK</button>
-</div>
-
-
-<div id="comp3">
-  <input>
-  <button>OK</button>
-</div>
+<div id="b1" class="box"></div>
+<div id="b2" class="box"></div>
+<div id="b3" class="box"></div>
+<div id="b4" class="box"></div>
+<div id="b5" class="box"></div>
+<div id="b6" class="box"></div>
+<div id="b7" class="box"></div>
+<div id="b8" class="box"></div>
+<div id="b9" class="box"></div>
 
 
 
 <style media="screen">
-#comp1{
-border: 2px bevel gray;
-background: lightgreen;
-padding: 1em;
-margin: 1em;
-display: inline-block;
+.box{
+    border: 2px bevel gray;
+    background: lightgreen;
+    padding: 1em;
+    margin: 1em;
+    display: inline-block;
+}
+.source{
+    border: 1px solid gray;
+    background: silver;
+    margin: 5px;
+    padding: 5px;
 }
 
-#comp2{
-border: 2px bevel gray;
-background: lightblue;
-padding: 1em;
-margin: 1em;
-display: inline-block;
+button[disabled]:after{
+    content: " (LOADING...)";
+    background: red;
 }
 
-#comp3{
-border: 2px bevel gray;
-background: pink;
-padding: 1em;
-margin: 1em;
-display: inline-block;
+.loading{
+    background: red;
 }
 </style>
 
