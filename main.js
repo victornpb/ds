@@ -89,7 +89,7 @@ window.onload = function() {
 
 
 
-
+	//creating fake views
 
 	window.bb1 = new Box({
 		el: b1,
@@ -121,6 +121,14 @@ window.onload = function() {
 		name: "Box (3)",
 	}).render();
 
-	window.s1 = new SlaveDS([ds1, ds2]);
+
+	//creating a slave with all DS just to have a global event
+	window.s1 = new SlaveDS([ds1, ds2, ds3, ds4]);
+	function monitor(){
+		if(this.isLoading()) g1.innerHTML = "LOADING...";
+		else g1.innerHTML = "DONE!";
+	}
+	// s1.addListener('open', monitor);
+	s1.addListener('change', monitor);
 
 }

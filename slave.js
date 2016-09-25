@@ -11,10 +11,13 @@ function SlaveDS(ds) {
 		open: [],
 		load: [],
 		reject: [],
+		change: [],
 	};
 
 	var loadCb = function(ds) {
 		console.log('[Slave] loadCb Triggered');
+		dispatchCallback(listeners.change, self.getData());
+
 		for (var i = 0; i < self.sources.length; i++) {
 			if (self.sources[i].state !== LOADED) return;
 		}
@@ -23,6 +26,8 @@ function SlaveDS(ds) {
 	};
 	var openCb = function(ds) {
 		console.log('[Slave] openCb Triggered');
+		dispatchCallback(listeners.change, self.getData());
+
 		console.trace('[Slave] dispatch onopen');
 		dispatchCallback(listeners.open, self.getData());
 	};
@@ -77,6 +82,13 @@ function SlaveDS(ds) {
 			if (self.sources[i].state !== LOADED) return false;
 		}
 		return true;
+	};
+
+	this.isLoading = function() {
+		for (var i = 0; i < self.sources.length; i++) {
+			if (self.sources[i].state !== OPENED) return true;
+		}
+		return false;
 	};
 
 	this.getData = function() {
