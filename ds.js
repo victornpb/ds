@@ -11,6 +11,9 @@ function DataSource(p) {
     var self = this;
     console.log('[DS] Created');
 
+    this.type = "MASTER";
+
+
     this.id = new Date();
 
     this.state = PENDING;
@@ -40,7 +43,7 @@ function DataSource(p) {
     };
 
     this.fetch = function(options) {
-        console.log('[DS] fetch()');
+        console.log('[DS] fetch');
 
         self.state = OPENED;
         dispatchCallback(listeners.open);
@@ -49,28 +52,41 @@ function DataSource(p) {
     };
 
     this.addListener = function(type, cb) {
-        console.log('[DS] addListener() for '+type);
 
         if (Object.keys(listeners).indexOf(type) === -1) {
             throw new Error('Cannot add event listener of type ', type);
         }
 
         listeners[type].push(cb);
+        console.log('[DS] attached listener on'+type);
 
         if(type==='open' && self.state===OPENED){
-            console.log('[DS] already opened, dispatching cb imediatelly');
+            console.log('[DS] already opened, dispatching onopen imediatelly');
             dispatchCallback([cb]);
         }
 
         if(type==='load' && self.state===LOADED){
-            console.log('[DS] already loaded, dispatching cb imediatelly');
+            console.log('[DS] already loaded, dispatching onload imediatelly');
             dispatchCallback([cb]);
         }
 
     };
 
+    this.removeListener = function(type, cb){
+		var i = listeners[type].indexOf(cb);
+		if(i>-1){
+			listeners[type].splice(i,1);
+			console.log('[DS] listener removed', type, cb);
+			return true;
+		}
+		else{
+			console.error('[DS] listener not attached.', type, cb);
+			return false;
+		}
+	};
+
     function dispatchCallback(callbacks, args) {
-        console.log('[DS] dispatchCallback()');
+        console.log('[DS] dispatchCallback(',callbacks,', ',args,')');
         callbacks.forEach(function(cb) {
             cb.apply(self, args);
         });
