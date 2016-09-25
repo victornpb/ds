@@ -1,46 +1,63 @@
 function Box(opt) {
     var self = this;
 
-    var id;
+    var el;
     this.ds;
-
+    this.opt = opt;
 
     this.init = function(opt) {
-        console.log('Box init', id);
+        console.log('Box init', el);
 
-        id = opt.id;
+        el = opt.el;
         self.ds = opt.ds;
 
-        self.ds.addListener('load', self.fetchComplete);
-        self.ds.addListener('open', self.loading);
+        el.innerHTML = "\
+        <h4>-</h4>\
+        <input>\
+        <button class='f'>FETCH</button>\
+        <button class='ff'>FORCE FETCH</button>\
+        ";
 
-        var btn = id.querySelector('button');
-        btn.onclick = self.btnclick.bind(self);
+        self.ds.addListener('load', self.fetchComplete.bind(self));
+        self.ds.addListener('open', self.loading.bind(self));
+
     };
 
     this.render = function() {
         console.log('Box render');
 
+
+        var btn = el.querySelector('.f');
+        var title = el.querySelector('h4');
+
+        el.querySelector('.f').onclick = function(){
+            console.log('Box btnclick');
+            self.ds.fetch();
+        };
+        el.querySelector('.ff').onclick = function(){
+            console.log('Box btnclick');
+            self.ds.forceFetch();
+        };
+
+
+        title.innerHTML = opt.name;
+
         self.ds.fetch();
 
         return self;
     };
 
-    this.btnclick = function() {
-        console.log('Box btnclick');
-
-        self.ds.fetch();
-
-        return self;
-    };
 
     this.fetchComplete = function(data = "", data2 = "") {
         console.log('Box fetchComplete');
-        id.querySelector('input').value = data + " | " + data2;
+        self.opt.el.querySelector('input').value = data + " | " + data2;
+        el.classList.remove('loading');
     };
     this.loading = function(data) {
         console.log('Box loading');
-        id.querySelector('input').value = 'loading...';
+        var input = self.opt.el.querySelector('input');
+        input.value = 'loading...';
+        el.classList.add('loading');
     };
 
     self.init(opt);
