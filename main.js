@@ -87,40 +87,66 @@ window.onload = function() {
 		s4_c.classList.remove('loading');
 	});
 
+	window.ds5 = new DataSource(function(resolve, reject) {
+		console.log("GET5 triggered");
+		// t5.value = new Date();
+		setTimeout(function() {
+			console.log("GET5 returned");
+			resolve(s5_i.value.split(','));
+		}, 3000);
+	});
+	s5_b.onclick = function() {
+		ds5.fetch();
+	};
+	ds5.addListener('open', function(){
+		s5_b.disabled = true;
+		s5_c.classList.add('loading');
+	});
+	ds5.addListener('load', function(){
+		s5_b.disabled = false;
+		s5_c.classList.remove('loading');
+	});
+
 
 
 	//creating fake views
 
-	window.bb1 = new Box({
+	window.bb1 = new BoxView({
 		el: b1,
 		ds: new SlaveDS(ds1),
 		name: "Box (1)",
 	}).render();
 
-	window.bb2 = new Box({
+	window.bb2 = new BoxView({
 		el: b2,
 		ds: new SlaveDS(ds1),
 		name: "Box (1)",
 	}).render();
 
-	window.bb3 = new Box({
+	window.bb3 = new BoxView({
 		el: b3,
 		ds: new SlaveDS([ds1, ds2]),
 		name: "Box (1,2)",
 	}).render();
 
-	window.bb4 = new Box({
+	window.bb4 = new BoxView({
 		el: b4,
 		ds: new SlaveDS([ds2]),
 		name: "Box (2)",
 	}).render();
 
-	window.bb5 = new Box({
+	window.bb5 = new BoxView({
 		el: b5,
 		ds: new SlaveDS([ds3]),
 		name: "Box (3)",
 	}).render();
 
+
+	window.bb6 = new ListView({
+		el: b6,
+		ds: new SlaveDS([ds5]),
+		name: "List (5)",
+	}).render();
 
 	//creating a slave with all DS just to have a global event
 	window.s1 = new SlaveDS([ds1, ds2, ds3, ds4]);

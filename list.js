@@ -1,7 +1,9 @@
-function BoxView(opt) {
+function ListView(opt) {
     var self = this;
 
     var el;
+    var page = 0;
+
     this.ds;
     this.opt = opt;
 
@@ -11,12 +13,16 @@ function BoxView(opt) {
         el = opt.el;
         self.ds = opt.ds;
 
-        el.innerHTML = "\
+        el.innerHTML = '\
         <h4>-</h4>\
-        <input>\
-        <button class='f'>FETCH</button>\
-        <button class='ff'>FORCE FETCH</button>\
-        ";
+        <button class="f">FETCH</button>\
+        <button class="ff">FORCE FETCH</button>\
+        <br>\
+        <button class="prev">-</button>\
+        <button class="next">+</button>\
+        <br>\
+        <select style="width:200px"></select>\
+        ';
 
         self.ds.addListener('load', self.fetchComplete.bind(self));
         self.ds.addListener('open', self.loading.bind(self));
@@ -30,6 +36,16 @@ function BoxView(opt) {
         var btn = el.querySelector('.f');
         var title = el.querySelector('h4');
 
+        el.querySelector('.prev').onclick = function(){
+            console.log('Box btnclick');
+            self.ds.fetch(page--);
+        };
+        el.querySelector('.next').onclick = function(){
+            console.log('Box btnclick');
+            self.ds.fetch(page++);
+        };
+
+
         el.querySelector('.f').onclick = function(){
             console.log('Box btnclick');
             self.ds.fetch();
@@ -38,7 +54,6 @@ function BoxView(opt) {
             console.log('Box btnclick');
             self.ds.forceFetch();
         };
-
 
         title.innerHTML = opt.name;
 
@@ -50,13 +65,23 @@ function BoxView(opt) {
 
     this.fetchComplete = function(data = "", data2 = "") {
         console.log('Box fetchComplete');
-        self.opt.el.querySelector('input').value = data + " | " + data2;
+        var select = self.opt.el.querySelector('select');
+
+        data.forEach(function(item, i){
+            var option = document.createElement('option');
+            option.text = item;
+            option.value = i;
+            select.add(option);
+        });
+        select.size = data.length;
+
+
         el.classList.remove('loading');
     };
     this.loading = function(data) {
         console.log('Box loading');
-        var input = self.opt.el.querySelector('input');
-        input.value = 'loading...';
+        var select = self.opt.el.querySelector('select');
+        select.value = 'loading...';
         el.classList.add('loading');
     };
 
