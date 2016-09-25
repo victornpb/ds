@@ -129,14 +129,14 @@ window.onload = function() {
 
 	window.bb3 = new BoxView({
 		el: b3,
-		ds: new SlaveDS([ds1, ds2]),
-		name: "Box (1,2)",
+		ds: new SlaveDS([ds2]),
+		name: "Box (2)",
 	}).render();
 
 	window.bb4 = new BoxView({
 		el: b4,
-		ds: new SlaveDS([ds2]),
-		name: "Box (2)",
+		ds: new SlaveDS([ds1, ds2]),
+		name: "Box (1,2)",
 	}).render();
 
 	window.bb5 = new BoxView({

@@ -48,9 +48,12 @@ function BoxView(opt) {
     };
 
 
-    this.fetchComplete = function(data = "", data2 = "") {
+    this.fetchComplete = function() {
         console.log('Box fetchComplete');
-        self.opt.el.querySelector('input').value = data + " | " + data2;
+
+        var args = Array.from(arguments);
+
+        self.opt.el.querySelector('input').value = args.join(',');
         el.classList.remove('loading');
     };
     this.loading = function(data) {
