@@ -87,13 +87,17 @@ window.onload = function() {
 		s4_c.classList.remove('loading');
 	});
 
-	window.ds5 = new DataSource(function(resolve, reject) {
+	window.ds5 = new DataSource(function(resolve, reject, options) {
 		console.log("GET5 triggered");
 		// t5.value = new Date();
 		setTimeout(function() {
 			console.log("GET5 returned");
-			resolve(s5_i.value.split(','));
-		}, 3000);
+			var arr = s5_i.value.split(',');
+			arr = arr.map(function(x){
+				return parseInt(x) + (options || 0);
+			});
+			resolve(arr);
+		}, 1000);
 	});
 	s5_b.onclick = function() {
 		ds5.fetch();
@@ -144,9 +148,12 @@ window.onload = function() {
 
 	window.bb6 = new ListView({
 		el: b6,
-		ds: new SlaveDS([ds5]),
+		ds: ds5,
 		name: "List (5)",
 	}).render();
+
+
+
 
 	//creating a slave with all DS just to have a global event
 	window.s1 = new SlaveDS([ds1, ds2, ds3, ds4]);

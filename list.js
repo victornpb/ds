@@ -38,11 +38,13 @@ function ListView(opt) {
 
         el.querySelector('.prev').onclick = function(){
             console.log('Box btnclick');
-            self.ds.fetch(page--);
+            page-=10;
+            self.ds.fetch(page);
         };
         el.querySelector('.next').onclick = function(){
             console.log('Box btnclick');
-            self.ds.fetch(page++);
+            page+=10;
+            self.ds.fetch(page);
         };
 
 
@@ -66,6 +68,7 @@ function ListView(opt) {
     this.fetchComplete = function(data = "", data2 = "") {
         console.log('Box fetchComplete');
         var select = self.opt.el.querySelector('select');
+        select.innerHTML = "";
 
         data.forEach(function(item, i){
             var option = document.createElement('option');

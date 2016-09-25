@@ -43,7 +43,7 @@ function SlaveDS(ds) {
 		});
 	};
 
-	this.fetch = function() {
+	this.fetch = function(options) {
 		console.log('[Slave] fetch()');
 
 		if (self.isComplete()) {
@@ -54,7 +54,7 @@ function SlaveDS(ds) {
 				ds = self.sources[i];
 				if (ds.state === PENDING) {
 					console.trace('[Slave] Calling master fetch', ds);
-					ds.fetch();
+					ds.fetch(options);
 				} else {
 					console.trace('[Slave] ds already opened');
 				}

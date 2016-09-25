@@ -39,13 +39,13 @@ function DataSource(p) {
         self.state = REJECTED;
     };
 
-    this.fetch = function() {
+    this.fetch = function(options) {
         console.log('[DS] fetch()');
 
         self.state = OPENED;
         dispatchCallback(listeners.open);
 
-        p(resolveCb, rejectCb);
+        p(resolveCb, rejectCb, options);
     };
 
     this.addListener = function(type, cb) {
