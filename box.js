@@ -13,9 +13,10 @@ function BoxView(opt) {
 
         el.innerHTML = "\
         <h4>-</h4>\
-        <input>\
         <button class='f'>FETCH</button>\
         <button class='ff'>FORCE FETCH</button>\
+        <br>\
+        <textarea>\
         ";
 
         self.ds.addListener('load', self.fetchComplete.bind(self));
@@ -53,13 +54,13 @@ function BoxView(opt) {
 
         var args = Array.from(arguments);
 
-        self.opt.el.querySelector('input').value = args.join(',');
+        self.opt.el.querySelector('textarea').value = args.join(',');
         el.classList.remove('loading');
     };
     this.loading = function(data) {
         console.log('Box loading');
-        var input = self.opt.el.querySelector('input');
-        input.value = 'loading...';
+        var textarea = self.opt.el.querySelector('textarea');
+        textarea.value = 'loading...';
         el.classList.add('loading');
     };
 
